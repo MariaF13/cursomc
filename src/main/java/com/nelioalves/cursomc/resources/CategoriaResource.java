@@ -1,25 +1,21 @@
 package com.nelioalves.cursomc.resources;
 
 import com.nelioalves.cursomc.domain.Categoria;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.nelioalves.cursomc.services.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping(value= "/categorias")
 public class CategoriaResource {
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Categoria> listar(){
-        Categoria cat1 = new Categoria(1,"informática");
-        Categoria cat2 = new Categoria(2, "Escritorio");
-        List<Categoria> lista = new ArrayList<>();
-        lista.add(cat1);
-        lista.add(cat2);
-        return lista;
+    @Autowired
+    private CategoriaService service;
+    @RequestMapping(value="/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> find(@PathVariable Integer id){
+        Categoria obj = service.find(id);
+        return ResponseEntity.ok().body(obj);
     }
 }
